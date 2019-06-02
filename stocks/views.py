@@ -33,3 +33,29 @@ class Portfolios(APIView):
         portfolios = Portfolio.objects.all().order_by('name')
         portfolio_serializer = PortfolioSerializer(portfolios, many=True)
         return Response(data=portfolio_serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def add_stock_to_portfolio(request):
+    """
+    Add a specific stock (by symbol) to a portfolio (by slug).
+    """
+    stock_symbol = request.data['stock']
+    portfolio_slug = request.data['portfolio']
+    stock = Stock.objects.get(symbol=stock_symbol)
+    portfolio = Portfolio.objects.get(slug=portfolio_slug)
+    portfolio.stocks.add(stock)
+    return Response(status=201)
+
+
+@api_view(['POST'])
+def remove_stock_from_portfolio(request):
+    """
+    Remove a specific stock (by symbol) to a portfolio (by slug).
+    """
+    stock_symbol = request.data['stock']
+    portfolio_slug = request.data['portfolio']
+    stock = Stock.objects.get(symbol=stock_symbol)
+    portfolio = Portfolio.objects.get(slug=portfolio_slug)
+    portfolio.stocks.remove(stock)
+    return Response(status=204)
