@@ -70,8 +70,7 @@
                                 data: {portfolio: '{{ portfolio.slug }}', stock: '{{ stock.symbol }}'},
                             })
                             .done(function(data) {
-                                console.debug('Removed!');
-                                // Manipulate DOM to remove element
+                                // Manipulate DOM to remove element -- can potentially be painful...
                                 $('#entry-{{ portfolio.slug }}-{{ stock.symbol }}').fadeOut();
                             })
                             .fail(function(error) {
@@ -108,8 +107,7 @@
                 data: {portfolio: '{{ portfolio.slug }}', stock: selectedStock},
             })
             .done(function(data) {
-                console.debug('Added!');
-                // Manipulate DOM to create new <tr> node and append to table
+                // Manipulate DOM to create new <tr> and <td> nodes, then append to table -- painful!
                 var tableBody = $('#tbody-{{ portfolio.slug }}');
                 var newStock = $('<tr></tr>');
                 var newStockName = $('<td></td>').text(data.name + ' (' + data.symbol + ')');
@@ -127,7 +125,6 @@
     </script>
     <hr>
     {% endfor %}
-
 
     <style>
         #title {
