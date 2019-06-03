@@ -45,13 +45,8 @@ def add_stock_to_portfolio(request):
     stock = Stock.objects.get(symbol=stock_symbol)
     portfolio = Portfolio.objects.get(slug=portfolio_slug)
     portfolio.stocks.add(stock)
-    return Response(data={
-        'name': stock.name,
-        'symbol': stock.symbol,
-        'exchange': stock.exchange,
-        'active': stock.active,
-        'price': stock.price,
-    }, status=200)
+    stock_serializer = StockSerializer(stock)
+    return Response(data=stock_serializer.data, status=200)
 
 
 @api_view(['POST'])
@@ -67,6 +62,17 @@ def remove_stock_from_portfolio(request):
     return Response(status=204)
 
 
-def index(request):
+def example1(request):
+    """
+    Example Portfolio Manager app using plain old Django and JQuery/Ajax.
+    """
     context = {'portfolios': Portfolio.objects.all(), 'stocks': Stock.objects.all()}
-    return render(request, 'stocks/index.html', context)
+    return render(request, 'stocks/example1.html', context)
+
+
+def example2(request):
+    """
+    Example Portfolio Manager app using inline Vue.js instance.
+    """
+    context = {'portfolios': Portfolio.objects.all(), 'stocks': Stock.objects.all()}
+    return render(request, 'stocks/example2.html', context)

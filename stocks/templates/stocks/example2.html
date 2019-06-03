@@ -1,0 +1,160 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1000, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TMF Portfolio Management Tool</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"
+    >
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+
+<body>
+    <main id="app" class="container-fluid">
+        <h1 id="title">TMF Portfolio Management Tool</h1>
+        <section v-for="portfolio in portfolios" :key="portfolio.slug">
+            <h2>[[ portfolio.name ]] (@[[ portfolio.slug ]])</h2>
+            <article class="container">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Exchange</th>
+                            <th scope="col">Active</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Controls</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="stock in portfolio.stocks" :key="`${portfolio.slug}-${stock.symbol}`">
+                            <td scope="row">[[ stock.name ]] ([[ stock.symbol ]])</td>
+                            <td scope="row">[[ stock.exchange ]]</td>
+                            <td scope="row">[[ String(stock.active).slice(0, 1).toUpperCase() + String(stock.active).slice(1) ]]</td>
+                            <td scope="row">$[[ stock.price ]]</td>
+                            <td scope="row">
+                                <input type="submit"
+                                       class="btn btn-outline-danger"
+                                       value="Remove"
+                                       @click="removeStockFromPortfolio(portfolio.slug, stock.symbol)"
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+            <hr>
+        </section>
+        <div class="row add-form">
+            <div class="col-sm">
+                <h6 class="float-right" style="margin-top: 10px;">Add a Stock:</h6>
+            </div>
+            <select name="choose-portfolio" class="custom-select col-sm" v-model="portfolioSlugToAdd">
+                <option value="" disabled selected>Choose a portfolio</option>
+                <option v-for="portfolio in portfolios" :key="portfolio.slug" :value="portfolio.slug">
+                    [[ portfolio.name ]] ([[ portfolio.slug ]])
+                </option>
+            </select>
+            <select name="choose-stock" class="custom-select col-sm" v-model="stockSymbolToAdd">
+                <option value="" disabled selected>Choose a stock</option>
+                <option v-for="stock in stocks" :key="stock.symbol" :value="stock.symbol">
+                    [[ stock.name ]] ([[ stock.symbol ]])
+                </option>
+            </select>
+            <div class="col-sm">
+                <input type="submit"
+                       class="btn btn-outline-info"
+                       value="Add"
+                       @click="saveStockToPortfolio"
+                >
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            delimiters: ["[[", "]]"],
+            data() {
+                return {
+                    portfolios: [],
+                    stocks: [],
+                    portfolioSlugToAdd: '',
+                    stockSymbolToAdd: '',
+                };
+            },
+            created() {
+                axios.get('/stocks/').then((response) => {
+                    this.stocks = response.data;
+                });
+                axios.get('/stocks/portfolios/').then((response) => {
+                    this.portfolios = response.data;
+                });
+            },
+            methods: {
+                removeStockFromPortfolio(portfolioSlug, stockSymbol) {
+                    axios.post('/stocks/remove_stock_from_portfolio/', {
+                        portfolio: portfolioSlug,
+                        stock: stockSymbol,
+                    })
+                    .then((response) => {
+                        // Manipulate the data and the DOM will update automatically
+                        const vmPortfolio = this.portfolios.find(p => p.slug === portfolioSlug);
+                        const vmStockIndex = vmPortfolio.stocks.map(s => s.symbol).indexOf(stockSymbol);
+                        vmPortfolio.stocks.splice(vmStockIndex, 1);
+                    });
+                },
+                saveStockToPortfolio() {
+                    axios.post('/stocks/add_stock_to_portfolio/', {
+                        portfolio: this.portfolioSlugToAdd,
+                        stock: this.stockSymbolToAdd
+                    })
+                    .then((response) => {
+                        const { data } = response;
+                        // Manipulate the data and the DOM will update automatically
+                        const vmPortfolio = this.portfolios.find(p => p.slug === this.portfolioSlugToAdd);
+                        vmPortfolio.stocks.push(data);
+                        this.portfolioSlugToAdd = '';
+                        this.stockSymbolToAdd = '';
+                    });
+                },
+            },
+        });
+    </script>
+
+    <style>
+        #title {
+            margin-bottom: 2rem;
+        }
+        .add-form {
+            margin: 0px;
+            padding: 1rem;
+            border: 1px solid black;
+            background-color: whitesmoke;
+        }
+    </style>
+
+</body>
+
+</html>

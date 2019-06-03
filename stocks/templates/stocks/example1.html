@@ -86,73 +86,83 @@
                 {% endfor %}
             </tbody>
         </table>
-        <form id="add-{{ portfolio.slug }}"
-              class="row add-form"
-              action="/stocks/add_stock_to_portfolio/"
-              method="post"
-        >
-            <div class="col-sm">
-                <h6 class="float-right" style="margin-top: 10px;">Add a Stock:</h6>
-            </div>
-            <input type="hidden" name="portfolio" value="{{ portfolio.slug }}">
-            <select id="add-{{ portfolio.slug }}-selection" name="add-stock" class="custom-select col-sm">
-                <option disabled selected></option>
-                {% for stock in stocks %}
-                <option value="{{ stock.symbol }}">{{ stock.name }} ({{ stock.symbol }})</option>
-                {% endfor %}
-            </select>
-            <div class="col-sm">
-                <input id="add-{{ portfolio.slug }}-submit" type="submit" class="btn btn-outline-info" value="Add">
-            </div>
-        </form>
-        <script>
-            var addStockSubmitButton = $('#add-{{ portfolio.slug }}-submit');
-            $(addStockSubmitButton).on('click', function(e) {
-                e.preventDefault();
-                var selectedStock = $('#add-{{ portfolio.slug }}-selection').val();
-                $.ajax('/stocks/add_stock_to_portfolio/', {
-                    method: 'POST',
-                    data: {portfolio: '{{ portfolio.slug }}', stock: selectedStock},
-                })
-                .done(function(data) {
-                    // Manipulate DOM to create new <tr> and <td> nodes, then append to table -- painful!
-                    var newStockName = $('<td></td>').text(data.name + ' (' + data.symbol + ')');
-                    var newStockExchange = $('<td></td>').text(data.exchange);
-                    var newStockActive = $('<td></td>').text(String(data.active).slice(0, 1).toUpperCase() + String(data.active).slice(1));
-                    var newStockPrice = $('<td></td>').text('$' + data.price);
-                    var newStockSubmitButton = $('<input '
-                                                 + 'id="remove-{{ portfolio.slug }}-'
-                                                        + data.symbol
-                                                        + '-submit" type="submit" '
-                                                 + 'class="btn btn-outline-danger" '
-                                                 + 'value="Remove" '
-                                                 + 'style="margin: 10px;">');
-                    newStockSubmitButton.on('click', function(e) {
-                        e.preventDefault();
-                        $.ajax('/stocks/remove_stock_from_portfolio/', {
-                            method: 'POST',
-                            data: {portfolio: '{{ portfolio.slug }}', stock: data.symbol},
-                        })
-                        .done(function(innerData) {
-                            $('#entry-{{ portfolio.slug }}-' + data.symbol).fadeOut();
-                        })
-                        .fail(function(innerError) {
-                            console.warn(innerError);
-                        });
-                    });
-                    var newStock = $('<tr id="entry-{{ portfolio.slug }}-' + data.symbol + '"></tr>');
-                    newStock.append(newStockName, newStockExchange, newStockActive, newStockPrice, newStockSubmitButton);
-                    var tableBody = $('#tbody-{{ portfolio.slug }}');
-                    tableBody.append(newStock);
-                })
-                .fail(function(error) {
-                    console.warn(error);
-                });
-            });
-        </script>
     </div>
     <hr>
     {% endfor %}
+
+    <form id="add-{{ portfolio.slug }}"
+          class="row add-form"
+          action="/stocks/add_stock_to_portfolio/"
+          method="post"
+    >
+      <div class="col-sm">
+          <h6 class="float-right" style="margin-top: 10px;">Add a Stock:</h6>
+      </div>
+      <input type="hidden" name="portfolio" value="{{ portfolio.slug }}">
+      <select id="add-choose-portfolio" class="custom-select col-sm">
+          <option disabled selected>Choose a portfolio</option>
+          {% for portfolio in portfolios %}
+          <option value="{{ portfolio.slug }}">{{ portfolio.name }} ({{ portfolio.slug }})</option>
+          {% endfor %}
+      </select>
+      <select id="add-choose-stock" class="custom-select col-sm">
+          <option disabled selected>Choose a stock</option>
+          {% for stock in stocks %}
+          <option value="{{ stock.symbol }}">{{ stock.name }} ({{ stock.symbol }})</option>
+          {% endfor %}
+      </select>
+      <div class="col-sm">
+          <input id="add-submit" type="submit" class="btn btn-outline-info" value="Add">
+      </div>
+    </form>
+    <script>
+      var addStockSubmitButton = $('#add-submit');
+      $(addStockSubmitButton).on('click', function(e) {
+          e.preventDefault();
+          var selectedPortfolio = $('#add-choose-portfolio').val();
+          var selectedStock = $('#add-choose-stock').val();
+          $.ajax('/stocks/add_stock_to_portfolio/', {
+              method: 'POST',
+              data: {portfolio: selectedPortfolio, stock: selectedStock},
+          })
+          .done(function(data) {
+              // Manipulate DOM to create new <tr> and <td> nodes, then append to table -- painful!
+              var newStockName = $('<td></td>').text(data.name + ' (' + data.symbol + ')');
+              var newStockExchange = $('<td></td>').text(data.exchange);
+              var newStockActive = $('<td></td>').text(String(data.active).slice(0, 1).toUpperCase() + String(data.active).slice(1));
+              var newStockPrice = $('<td></td>').text('$' + data.price);
+              var newStockSubmitButton = $('<input '
+                                           + 'id="remove-'
+                                                  + selectedPortfolio
+                                                  + '-'
+                                                  + data.symbol
+                                                  + '-submit" type="submit" '
+                                           + 'class="btn btn-outline-danger" '
+                                           + 'value="Remove" '
+                                           + 'style="margin: 10px;">');
+              newStockSubmitButton.on('click', function(e) {
+                  e.preventDefault();
+                  $.ajax('/stocks/remove_stock_from_portfolio/', {
+                      method: 'POST',
+                      data: {portfolio: selectedPortfolio, stock: data.symbol},
+                  })
+                  .done(function(innerData) {
+                      $('#entry-' + selectedPortfolio + '-' + data.symbol).fadeOut();
+                  })
+                  .fail(function(innerError) {
+                      console.warn(innerError);
+                  });
+              });
+              var newStock = $('<tr id="entry-'+ selectedPortfolio + '-' + data.symbol + '"></tr>');
+              newStock.append(newStockName, newStockExchange, newStockActive, newStockPrice, newStockSubmitButton);
+              var tableBody = $('#tbody-' + selectedPortfolio);
+              tableBody.append(newStock);
+          })
+          .fail(function(error) {
+              console.warn(error);
+          });
+      });
+    </script>
 
     <style>
         #title {
