@@ -19,15 +19,15 @@ def populate_data(apps, schema_editor):
         active=True,
     )
     kellogg = Stock.objects.create(
-        name='K',
-        symbol='Kellogg',
+        name='Kellogg',
+        symbol='K',
         exchange='NYSE',
         price=89.51,
         active=True,
     )
     visa = Stock.objects.create(
-        name='V',
-        symbol='Visa',
+        name='Visa',
+        symbol='V',
         exchange='NASDAQ',
         price=235.47,
         active=True,
@@ -39,8 +39,8 @@ def populate_data(apps, schema_editor):
         price=7.75,
         active=False,
     )
-    shiny_stars = Portfolio.objects.create(name='Shiny Stars', slug='@ShinyStars')
-    unknown_hits = Portfolio.objects.create(name='Unknown Hits', slug='@UnknownHits')
+    shiny_stars = Portfolio.objects.create(name='Shiny Stars', slug='shinystars')
+    unknown_hits = Portfolio.objects.create(name='Unknown Hits', slug='unknownhits')
     shiny_stars.stocks.add(visa)
     shiny_stars.stocks.add(marvel)
     shiny_stars.stocks.add(ford)

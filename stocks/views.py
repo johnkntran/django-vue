@@ -59,3 +59,8 @@ def remove_stock_from_portfolio(request):
     portfolio = Portfolio.objects.get(slug=portfolio_slug)
     portfolio.stocks.remove(stock)
     return Response(status=204)
+
+
+def index(request):
+    context = {'portfolios': Portfolio.objects.all(), 'stocks': Stock.objects.all()}
+    return render(request, 'stocks/index.html', context)

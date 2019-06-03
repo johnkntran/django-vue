@@ -1,0 +1,102 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1000, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Portfolio Management Tool</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous"
+    >
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous">
+    </script>
+</head>
+
+
+<body class="container-fluid">
+    <h1 id="title">Portfolio Management Tool</h1>
+
+    {% for portfolio in portfolios %}
+    <h2>{{ portfolio.name }} (@{{ portfolio.slug }})</h2>
+    <table id="portfolio-dashboard" class="table table-bordered container">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Stock</th>
+                <th scope="col">Exchange</th>
+                <th scope="col">Active</th>
+                <th scope="col">Price</th>
+                <th scope="col">Controls</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in portfolio.stocks.all %}
+            <tr id="entry-{{ portfolio.slug }}-{{ stock.symbol }}">
+                <td scope="row">{{ stock.name }}({{ stock.symbol }})</td>
+                <td scope="row">{{ stock.exchange }}</td>
+                <td scope="row">{{ stock.active }}</td>
+                <td scope="row">${{ stock.price | intcomma }}</td>
+                <td scope="row">
+                    <form id="remove-{{ portfolio.slug }}-{{ stock.symbol }}">
+                        <input type="hidden" name="portfolio" value="{{ portfolio.slug }}">
+                        <input type="hidden" name="stock" value="{{ stock.symbol }}">
+                        <input type="submit" value="Remove">
+                    </form>
+                    <script>
+                        var removeForm = $('#remove-{{ portfolio.slug }}-{{ stock.symbol }}');
+                        var removeFormChildren = removeForm.children();
+                        var removeFormSubmitButton = removeFormChildren[removeFormChildren.length - 1];
+                        $(removeFormSubmitButton).on('click', function(e) {
+                            e.preventDefault();
+                            console.debug('{{ portfolio.slug }},{{ stock.symbol }}');
+                            $.ajax('/stocks/remove_stock_from_portfolio/', {
+                                method: 'POST',
+                                data: {portfolio: '{{ portfolio.slug }}', stock: '{{ stock.symbol }}'},
+                                dataType: 'application/json',
+                            })
+                            .done(function(data) {
+                                console.debug('Done!');
+                                $('#entry-{{ portfolio.slug }}-{{ stock.symbol }}').fadeOut();
+                            })
+                            .fail(function(error) {
+                                console.warn(error);
+                            });
+                        });
+                    </script>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+
+
+    <script>
+
+    </script>
+
+
+    <style>
+        #title {
+            margin-bottom: 2rem;
+        }
+    </style>
+
+</body>
+
+</html>

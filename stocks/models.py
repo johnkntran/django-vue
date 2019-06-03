@@ -11,8 +11,8 @@ class Stock(models.Model):
         ('NYSE', 'New York Stock Exchange'),
         ('NASDAQ', 'Nasdaq Exchange')
     ))
-    price = models.FloatField() # FloatField for convenience, use DecimalField in real life
     active = models.BooleanField(default=True)
+    price = models.FloatField() # FloatField for convenience, use DecimalField in real life
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
