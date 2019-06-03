@@ -45,7 +45,13 @@ def add_stock_to_portfolio(request):
     stock = Stock.objects.get(symbol=stock_symbol)
     portfolio = Portfolio.objects.get(slug=portfolio_slug)
     portfolio.stocks.add(stock)
-    return Response(status=201)
+    return Response(data={
+        'name': stock.name,
+        'symbol': stock.symbol,
+        'exchange': stock.exchange,
+        'active': stock.active,
+        'price': stock.price,
+    }, status=200)
 
 
 @api_view(['POST'])
