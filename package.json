@@ -1,0 +1,35 @@
+{
+  "name": "mm_demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "npm run django | npm run serve",
+    "django": "python manage.py runserver",
+    "serve": "watch 'npm run dev' ./stocks/src",
+    "dev": "vue-cli-service build --mode=development",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint ./vue/src --no-fix"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.2.0",
+    "@vue/cli-plugin-eslint": "^3.2.1",
+    "@vue/cli-service": "^3.2.0",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0-0",
+    "gulp": "^4.0.0",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
+    "vue-template-compiler": "^2.5.17",
+    "watch": "^1.0.2"
+  }
+}

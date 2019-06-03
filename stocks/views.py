@@ -1,4 +1,6 @@
+import datetime
 from django.shortcuts import render
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -64,7 +66,7 @@ def remove_stock_from_portfolio(request):
 
 def example1(request):
     """
-    Example Portfolio Manager app using plain old Django and JQuery/Ajax.
+    Example Portfolio Manager app using plain old Django and jQuery/Ajax.
     """
     context = {'portfolios': Portfolio.objects.all(), 'stocks': Stock.objects.all()}
     return render(request, 'stocks/example1.html', context)
@@ -76,3 +78,17 @@ def example2(request):
     """
     context = {'portfolios': Portfolio.objects.all(), 'stocks': Stock.objects.all()}
     return render(request, 'stocks/example2.html', context)
+
+
+def example3(request):
+    """
+    Example Portfolio Manager app using single-file Vue.js components and NPM.
+    """
+    context = {
+        'environment': settings.ENV_NAME,
+        'email': 'some_email@fool.com',
+        'api_key': 'some key from your django.conf settings',
+        'date_stamp': datetime.date.today().isoformat(),
+        # etc...
+    }
+    return render(request, 'stocks/example3.html', context)

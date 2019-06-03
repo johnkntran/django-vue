@@ -25,6 +25,9 @@ SECRET_KEY = 'y4#fi-)q41dtqqol+pz4vospktc_c$%t8ipes9em8&@hf7s)1$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Change this depending on your deployment environment
+ENV_NAME = 'development'
+
 ALLOWED_HOSTS = []
 
 

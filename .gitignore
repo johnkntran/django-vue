@@ -191,3 +191,6 @@ dmypy.json
 
 # Virtualenvs
 .venv/
+
+#Static files
+**/static/

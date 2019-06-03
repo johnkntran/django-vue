@@ -1,14 +1,12 @@
-{% load humanize %}
-
 <!DOCTYPE html>
 <html lang="en">
 
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1000, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TMF Portfolio Management Tool</title>
+    <title>TMF Portfolio Management Tool (Vue.js Instance inside Django Template)</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -33,9 +31,10 @@
 
 <body>
     <main id="app" class="container-fluid">
-        <h1 id="title">TMF Portfolio Management Tool</h1>
+        <h1>TMF Portfolio Management Tool</h1>
+        <h2 class="subtitle text-success">(Vue.js Instance inside Django Template)</h2>
         <section v-for="portfolio in portfolios" :key="portfolio.slug">
-            <h2>[[ portfolio.name ]] (@[[ portfolio.slug ]])</h2>
+            <h3>[[ portfolio.name ]] (@[[ portfolio.slug ]])</h3>
             <article class="container">
                 <table class="table table-bordered">
                     <thead class="thead-dark">
@@ -119,7 +118,7 @@
                         stock: stockSymbol,
                     })
                     .then((response) => {
-                        // Manipulate the data and the DOM will update automatically
+                        // Manipulate the data and the DOM will react automatically
                         const vmPortfolio = this.portfolios.find(p => p.slug === portfolioSlug);
                         const vmStockIndex = vmPortfolio.stocks.map(s => s.symbol).indexOf(stockSymbol);
                         vmPortfolio.stocks.splice(vmStockIndex, 1);
@@ -132,7 +131,7 @@
                     })
                     .then((response) => {
                         const { data } = response;
-                        // Manipulate the data and the DOM will update automatically
+                        // Manipulate the data and the DOM will react automatically
                         const vmPortfolio = this.portfolios.find(p => p.slug === this.portfolioSlugToAdd);
                         vmPortfolio.stocks.push(data);
                         this.portfolioSlugToAdd = '';
@@ -144,7 +143,7 @@
     </script>
 
     <style>
-        #title {
+        .subtitle {
             margin-bottom: 2rem;
         }
         .add-form {
