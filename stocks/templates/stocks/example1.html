@@ -33,7 +33,7 @@
     <h1>TMF Portfolio Management Tool</h1>
     <h2 class="subtitle text-success">(Django and jQuery/Ajax)</h2>
     {% for portfolio in portfolios %}
-    <h3>{{ portfolio.name }} (@{{ portfolio.slug }})</h3>
+    <h4>{{ portfolio.name }} (@{{ portfolio.slug }})</h4>
     <div class="container">
         <table id="portfolio-dashboard" class="table table-bordered">
             <thead class="thead-dark">
@@ -167,7 +167,7 @@
 
     <style>
         .subtitle {
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
         .add-form {
             margin: 0px;

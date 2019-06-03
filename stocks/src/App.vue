@@ -64,6 +64,6 @@ export default {
 
 <style lang="scss" scoped>
 .subtitle {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 </style>

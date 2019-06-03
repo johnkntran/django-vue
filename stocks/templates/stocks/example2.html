@@ -34,7 +34,7 @@
         <h1>TMF Portfolio Management Tool</h1>
         <h2 class="subtitle text-success">(Vue.js Instance inside Django Template)</h2>
         <section v-for="portfolio in portfolios" :key="portfolio.slug">
-            <h3>[[ portfolio.name ]] (@[[ portfolio.slug ]])</h3>
+            <h4>[[ portfolio.name ]] (@[[ portfolio.slug ]])</h4>
             <article class="container">
                 <table class="table table-bordered">
                     <thead class="thead-dark">
@@ -144,7 +144,7 @@
 
     <style>
         .subtitle {
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
         .add-form {
             margin: 0px;
