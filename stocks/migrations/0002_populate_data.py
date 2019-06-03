@@ -39,6 +39,13 @@ def populate_data(apps, schema_editor):
         price=7.75,
         active=False,
     )
+    tyco = Stock.objects.create(
+        name='Tyco',
+        symbol='TYC',
+        exchange='NASDAQ',
+        price=3.96,
+        active=False,
+    )
     shiny_stars = Portfolio.objects.create(name='Shiny Stars', slug='shinystars')
     unknown_hits = Portfolio.objects.create(name='Unknown Hits', slug='unknownhits')
     shiny_stars.stocks.add(visa)
