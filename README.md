@@ -47,9 +47,9 @@ After that, set up a Python virtual environment and install all Python 3rd-party
 packages by issuing these commands:
 ```bash
 cd mm_demo
-python3 venv .venv
+python3 -m venv .venv
 source .venv/bin/activate # For MacOS/Linux
-source .venv/Scripts/activate.bat # For Windows
+source .venv\Scripts\activate.bat # For Windows
 pip install -r requirements.txt
 ```
 
