@@ -46,7 +46,7 @@ To get started, clone this repository down to your local computer.
 After that, set up a Python virtual environment and install all Python 3rd-party
 packages by issuing these commands:
 ```bash
-cd mm_demo
+cd django-vue
 python3 -m venv .venv
 source .venv/bin/activate # For MacOS/Linux
 source .venv\Scripts\activate.bat # For Windows
@@ -69,7 +69,26 @@ To get the site up and running, issue this npm script:
 npm start # Hit CTRL + C to kill the Django server when finished
 ```
 
-Finally, navigate to:
+There are three version of a simple CRUD app demonstrating a "Portfolio
+Management Tool" allowing the user to add and remove stocks from specific
+portfolios.
+
+The first page (/example1) uses Django and jQuery *only*, and demonstrates a
+traditional Django web app with no frills. The second page (/example2)
+instantiates a Vue instance inside an inline script tag, within the Django
+template. This a a very easy and convenient way to start integration Vue into
+Django and get immediate benefit off the bat. The third page (/example3)
+constructs the front-end entirely out of Vue.js single-file-components, and
+relies on Django as a backend REST API. This allows you to utilize the full
+scope of JavaScript ES6 modules, bundle compiling (e.g. minification,
+transpiling), Vue.js component architecture, state management, routing, and
+other benefits, but it is also the most complex to setup.
+
+In summary, all three pages work exactly the same, but the underlying
+architectures are entirely different, demonstrating how Vue.js can be integrated
+progressively into new or existing Django projects.
+
+To see these examples, navigate to:
 - [localhost:8000/example1](http://127.0.0.1:8000/example1)
     **Django and jQuery Only**
 - [localhost:8000/example2](http://127.0.0.1:8000/example2)
@@ -77,18 +96,9 @@ Finally, navigate to:
 - [localhost:8000/example3](http://127.0.0.1:8000/example3)
     **Vue.js Single-File Components with NPM Build**
 
-The web app is a simple CRUD app demonstrating a "Portfolio Management Tool"
-allowing the user to add and remove stocks from specific portfolios. All three
-pages work exactly the same, but the underlying architectures are completely
-different - demonstrating how Vue.js can be integrated progressively into
-existing Django projects.
 
 # For More Information
 
 For more information about incorporating Vue.js into Django projects, check out
 [the slides](https://docs.google.com/presentation/d/1Fdu0_J8EYyKft2xUqiHe3P9DIMMX17DEHYDAqPxqzaI/view?usp=sharing),
 which go into depth about the setup demonstrated here.
-
-Also, [this repository](https://github.com/themotleyfool/django-vue-starter-template)
-is the official TMF Django Vue.js starter pack, describing a more complicated
-setup with testing, routing, state management, and other features baked in.

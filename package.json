@@ -1,11 +1,11 @@
 {
-  "name": "mm_demo",
+  "name": "django-vue",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "npm run django | npm run serve",
     "django": "python manage.py runserver",
-    "serve": "watch 'npm run dev' ./stocks/src",
+    "serve": "watch \"npm run dev\" ./stocks/src",
     "dev": "vue-cli-service build --mode=development",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint ./vue/src --no-fix"
@@ -30,6 +30,7 @@
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.17",
-    "watch": "^1.0.2"
+    "watch": "^1.0.2",
+    "webpack": "^4.37.0"
   }
 }
