@@ -56,6 +56,7 @@
 
     {% if environment != 'development' %}
         <script src="{% static 'js/app.js' %}"></script>
+        <script src="{% static 'js/chunk-vendors.js' %}"></script>
     {% else %}
         <script src="{% static 'app.js' %}"></script>
     {% endif %}
