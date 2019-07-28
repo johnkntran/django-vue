@@ -125,3 +125,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = './static'
+
+
+# Configure Django LiveReload server
+# https://github.com/tjwalch/django-livereload-server
+INSTALLED_APPS = ['livereload'] + INSTALLED_APPS
+MIDDLEWARE = MIDDLEWARE + ['livereload.middleware.LiveReloadScript']
+LIVERELOAD_HOST = '127.0.0.1'
+LIVERELOAD_PORT = '35729'

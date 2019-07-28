@@ -3,8 +3,9 @@
   "version": "0.1.1",
   "private": false,
   "scripts": {
-    "start": "npm run django | npm run serve",
+    "start": "npm run django | npm run livereload | npm run serve",
     "django": "python manage.py runserver",
+    "livereload": "python manage.py livereload",
     "serve": "watch \"npm run dev\" ./stocks/src",
     "dev": "vue-cli-service build --mode=development",
     "build": "vue-cli-service build",
@@ -12,25 +13,23 @@
   },
   "dependencies": {
     "axios": "^0.18.1",
+    "core-js": "^2.6.5",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.7",
-    "vuex": "^3.1.1"
+    "vue-router": "^3.0.3",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.9.2",
-    "@vue/cli-plugin-eslint": "^3.9.2",
-    "@vue/cli-service": "^3.9.3",
-    "@vue/eslint-config-airbnb": "^4.0.1",
-    "@vue/test-utils": "^1.0.0-beta.29",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^10.0.2",
+    "@vue/cli-plugin-babel": "^3.9.0",
+    "@vue/cli-plugin-eslint": "^3.9.0",
+    "@vue/cli-service": "^3.9.0",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.2.3",
-    "gulp": "^4.0.2",
-    "node-sass": "^4.12.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10",
-    "watch": "^1.0.2",
-    "webpack": "^4.37.0"
+    "watch": "^1.0.2"
   }
 }

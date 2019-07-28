@@ -197,3 +197,6 @@ dmypy.json
 
 #Static files
 **/static/
+
+# VSCode
+.vscode
