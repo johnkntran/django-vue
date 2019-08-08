@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     removeStockFromPortfolio(portfolio, stock) {
-      this.$emit('removed-stock', portfolio, stock);
+      this.$emit('removed-stock', { portfolio, stock });
     },
   },
 };

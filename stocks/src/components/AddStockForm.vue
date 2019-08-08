@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     saveStockToPortfolio() {
-      this.$emit('added-stock', this.selectedPortfolio, this.selectedStock);
+      this.$emit('added-stock', { portfolio: this.selectedPortfolio, stock: this.selectedStock });
       this.selectedPortfolio = '';
       this.selectedStock = '';
     },

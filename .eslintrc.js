@@ -11,6 +11,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'indent': 'off',
+    'linebreak-style': 'off',
     'vue/html-indent': 'off',
     'vue/order-in-components': 'off',
     'vue/max-attributes-per-line': 'off',

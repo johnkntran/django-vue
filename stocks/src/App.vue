@@ -5,11 +5,11 @@
   <stock-table v-for="portfolio in $store.state.portfolios"
                :key="portfolio.slug"
                :portfolio="portfolio"
-               @removed-stock="handleRemovedStock"
+               @removed-stock="$store.dispatch('removeStock', $event)"
   />
   <add-stock-form :portfolios="$store.state.portfolios"
                   :stocks="$store.state.stocks"
-                  @added-stock="handleAddedStock"
+                  @added-stock="$store.dispatch('addStock', $event)"
   />
 </main>
 </template>
@@ -22,14 +22,6 @@ import AddStockForm from './components/AddStockForm.vue';
 export default {
   name: 'Main',
   components: { StockTable, AddStockForm },
-  methods: {
-    async handleAddedStock(portfolio, stock) {
-      this.$store.dispatch('addStock', { portfolio, stock });
-    },
-    async handleRemovedStock(portfolio, stock) {
-      this.$store.dispatch('removeStock', { portfolio, stock });
-    },
-  },
   created() {
     this.$store.commit('storeContext');
   },
