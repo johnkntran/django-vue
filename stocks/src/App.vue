@@ -2,13 +2,13 @@
 <main class="container-fluid">
   <h1>TMF Portfolio Management Tool</h1>
   <h2 class="subtitle text-success">(Vue.js Single-File Components and NPM)</h2>
-  <stock-table v-for="portfolio in portfolios"
+  <stock-table v-for="portfolio in $store.state.portfolios"
                :key="portfolio.slug"
                :portfolio="portfolio"
                @removed-stock="handleRemovedStock"
   />
-  <add-stock-form :portfolios="portfolios"
-                  :stocks="stocks"
+  <add-stock-form :portfolios="$store.state.portfolios"
+                  :stocks="$store.state.stocks"
                   @added-stock="handleAddedStock"
   />
 </main>
@@ -22,42 +22,22 @@ import AddStockForm from './components/AddStockForm.vue';
 export default {
   name: 'Main',
   components: { StockTable, AddStockForm },
-  data() {
-    return {
-      portfolios: [],
-      stocks: [],
-    };
-  },
   methods: {
-    handleAddedStock(portfolio, stock) {
-      axios.post('/stocks/add_stock_to_portfolio/', { portfolio, stock })
-      .then((response) => {
-        const { data } = response;
-        const vmPortfolio = this.portfolios.find(p => p.slug === portfolio);
-        vmPortfolio.stocks.push(data);
-      });
+    async handleAddedStock(portfolio, stock) {
+      this.$store.dispatch('addStock', { portfolio, stock });
     },
-    handleRemovedStock(portfolio, stock) {
-      axios.post('/stocks/remove_stock_from_portfolio/', { portfolio, stock })
-      .then((response) => {
-        const vmPortfolio = this.portfolios.find(p => p.slug === portfolio);
-        const vmStockIndex = vmPortfolio.stocks.map(s => s.symbol).indexOf(stock);
-        vmPortfolio.stocks.splice(vmStockIndex, 1);
-      });
+    async handleRemovedStock(portfolio, stock) {
+      this.$store.dispatch('removeStock', { portfolio, stock });
     },
   },
   created() {
     this.$store.commit('storeContext');
   },
-  mounted() {
-    axios.get('/stocks/')
-    .then((response) => {
-      this.stocks = response.data;
-    });
-    axios.get('/stocks/portfolios/')
-    .then((response) => {
-      this.portfolios = response.data;
-    });
+  async mounted() {
+    const { data } = await axios.get('/stocks/');
+    this.$store.commit('storeStocks', data);
+    const response = await axios.get('/stocks/portfolios/');
+    this.$store.commit('storePortfolios', response.data);
   },
 };
 </script>

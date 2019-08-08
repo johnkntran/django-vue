@@ -51,7 +51,7 @@ export default {
       this.selectedStock = '';
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
