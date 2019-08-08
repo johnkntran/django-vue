@@ -26,12 +26,26 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    /**
+     * Add a stock to the database. Then push the stock information returned from the server to the
+     * list of stocks in that portfolio within the app.
+     *
+     * @param {Object} context The context object exposing methods/properties on the Vuex store.
+     * @param {Object} params The payload object containing parameters dispatched with the action.
+     */
     async addStock(context, params) {
       const { portfolio } = params;
       const { data } = await axios.post('/stocks/add_stock_to_portfolio/', params);
       const vmPortfolio = context.state.portfolios.find(p => p.slug === portfolio);
       vmPortfolio.stocks.push(data);
     },
+    /**
+     * Remove a stock from the database. Then pop that stock out of the list of stocks in that
+     * portfolio within the app.
+     *
+     * @param {Object} context The context object exposing methods/properties on the Vuex store.
+     * @param {Object} params The payload object containing parameters dispatched with the action.
+     */
     async removeStock(context, params) {
       const { portfolio, stock } = params;
       await axios.post('/stocks/remove_stock_from_portfolio/', params);
@@ -41,7 +55,7 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    csrfToken(state) {
+    csrfToken(state, getters) {
       return window.csrftoken;
     },
   },
