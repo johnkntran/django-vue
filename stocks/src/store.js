@@ -46,7 +46,7 @@ export default new Vuex.Store({
      * @param {Object} params The payload object containing parameters dispatched with the action.
      */
     async removeStock(context, { portfolio, stock }) {
-      await axios.post('/stocks/remove_stock_from_portfolio/', { portfolio, stock });
+      const { data } = await axios.post('/stocks/remove_stock_from_portfolio/', { portfolio, stock });
       const vmPortfolio = context.state.portfolios.find(p => p.slug === portfolio);
       const vmStockIndex = vmPortfolio.stocks.map(s => s.symbol).indexOf(stock);
       vmPortfolio.stocks.splice(vmStockIndex, 1);
