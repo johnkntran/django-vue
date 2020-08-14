@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "private": false,
   "scripts": {
-    "start": "npm run django | npm run livereload | npm run serve",
-    "django": "python manage.py runserver",
+    "start": "npm run migrate && npm run django | npm run livereload | npm run serve",
+    "docker": "npm run migrate && npm run django | npm run dev",
+    "django": "python manage.py runserver 0.0.0.0:8000",
     "livereload": "python manage.py livereload",
+    "migrate": "python manage.py migrate",
     "serve": "watch \"npm run dev\" ./stocks/src",
     "dev": "vue-cli-service build --mode=development",
     "build": "vue-cli-service build",

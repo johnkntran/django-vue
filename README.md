@@ -32,7 +32,63 @@ build an *app.js* file gets rendered as a Django static asset. This JS file
 contains the entire Vue.js compiled bundle, containing all Vue components,
 CSS, and JS logic.
 
-# Getting Started
+
+# App Overview
+
+There are three version of a simple CRUD app demonstrating a "Portfolio
+Management Tool" allowing the user to add and remove stocks from specific
+portfolios.
+
+The first page (/example1) uses Django and jQuery *only*, and demonstrates a
+traditional Django web app with no frills. The second page (/example2)
+instantiates a Vue instance inside an inline script tag, within the Django
+template. This a a very easy and convenient way to start integration Vue into
+Django and get immediate benefit off the bat. The third page (/example3)
+constructs the front-end entirely out of Vue.js single-file-components, and
+relies on Django as a backend REST API. This allows you to utilize the full
+scope of JavaScript ES6 modules, bundle compiling (e.g. minification,
+transpiling), Vue.js component architecture, state management, routing, and
+other benefits, but it is also the most complex to setup.
+
+In summary, all three pages work exactly the same, but the underlying
+architectures are entirely different, demonstrating how Vue.js can be integrated
+progressively into new or existing Django projects.
+
+To see these examples, navigate to:
+- [localhost:8000/example1](http://127.0.0.1:8000/example1)
+    **Django and jQuery Only**
+- [localhost:8000/example2](http://127.0.0.1:8000/example2)
+    **Inline Vue.js Instance Inside Django Template**
+- [localhost:8000/example3](http://127.0.0.1:8000/example3)
+    **Vue.js Single-File Components with NPM Build**
+
+## Option 1: Getting Started (Docker)
+Download [Docker Desktop](https://www.docker.com/products/docker-desktop). Then,
+clone this repository down to your local computer.
+
+Run these commands to build the Docker image and start a container serving on Port 8000:
+```bash
+docker build -t vue-django-examples . # Note: This will take a while...
+docker run -p 8000:8000 --name vue-django-examples vue-django-examples
+```
+This will build and image with a tag called `vue-django-examples`. It will then run a
+container with the same name `vue-django-examples`.
+
+If you want to SSH into the running container, issue:
+```bash
+docker exec -ti vue-django-examples bash
+```
+You can run commands such as `python manage.py showmigrations`, `python manage.py shell`, etc.
+
+After you're done, you can stop the container and remove the image by issueing, in a separate terminal tab or
+window:
+```bash
+docker container stop vue-django-examples
+docker container rm vue-django-examples
+docker rmi vue-django-examples
+```
+
+## Option 2: Getting Started (Local Dev)
 
 The code is written in the latest
 [Python 3.7](https://www.python.org/downloads/) and
@@ -68,33 +124,6 @@ To get the site up and running, issue this npm script:
 ```bash
 npm start # Hit CTRL + C to kill the Django server when finished
 ```
-
-There are three version of a simple CRUD app demonstrating a "Portfolio
-Management Tool" allowing the user to add and remove stocks from specific
-portfolios.
-
-The first page (/example1) uses Django and jQuery *only*, and demonstrates a
-traditional Django web app with no frills. The second page (/example2)
-instantiates a Vue instance inside an inline script tag, within the Django
-template. This a a very easy and convenient way to start integration Vue into
-Django and get immediate benefit off the bat. The third page (/example3)
-constructs the front-end entirely out of Vue.js single-file-components, and
-relies on Django as a backend REST API. This allows you to utilize the full
-scope of JavaScript ES6 modules, bundle compiling (e.g. minification,
-transpiling), Vue.js component architecture, state management, routing, and
-other benefits, but it is also the most complex to setup.
-
-In summary, all three pages work exactly the same, but the underlying
-architectures are entirely different, demonstrating how Vue.js can be integrated
-progressively into new or existing Django projects.
-
-To see these examples, navigate to:
-- [localhost:8000/example1](http://127.0.0.1:8000/example1)
-    **Django and jQuery Only**
-- [localhost:8000/example2](http://127.0.0.1:8000/example2)
-    **Inline Vue.js Instance Inside Django Template**
-- [localhost:8000/example3](http://127.0.0.1:8000/example3)
-    **Vue.js Single-File Components with NPM Build**
 
 
 # For More Information
