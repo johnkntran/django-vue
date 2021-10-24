@@ -1,22 +1,26 @@
-FROM python:3.7
+FROM python:3.10-slim-bullseye
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONDEVMODE 1
+ENV PYTHONFAULTHANDLER 1
 
-RUN mkdir /code
 WORKDIR /code
-COPY requirements.txt /code/
-RUN pip install -r requirements.txt
 
-ARG DEPENDENCIES="build-essential gcc libc-dev python3-dev default-libmysqlclient-dev nodejs vim"
-RUN apt-get update && \
-    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-    apt-get install -y $DEPENDENCIES
-COPY package.json /code/
+ARG DEPENDENCIES="build-essential gcc libc-dev python3-dev vim nodejs"
+RUN set -ex && \
+    apt-get update && apt-get --yes upgrade && \
+    curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install --yes $DEPENDENCIES
+
+COPY requirements.txt /code/
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+
+COPY package.json /code
 RUN npm install
 ENV PATH /code/node_modules/.bin:${PATH}
 
 EXPOSE 8000
-COPY . /code/
+COPY . /code
 
 ENTRYPOINT ["npm", "run", "docker"]
