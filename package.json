@@ -1,38 +1,35 @@
 {
-  "name": "django-vue",
-  "version": "1.0.0",
-  "private": false,
+  "name": "vue",
+  "version": "0.0.0",
+  "files": [
+    "dist/vite-lib.common.js"
+  ],
+  "main": "dist/vite-lib.common.js",
+  "module": "dist/vite-lib.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vite-lib.es.js",
+      "require": "./dist/vite-lib.umd.js"
+    }
+  },
   "scripts": {
-    "start": "npm run migrate && npm run django | npm run livereload | npm run serve",
-    "docker": "npm run migrate && npm run django | npm run dev",
-    "django": "python manage.py runserver 0.0.0.0:8000",
-    "livereload": "python manage.py livereload",
-    "migrate": "python manage.py migrate",
-    "serve": "watch \"npm run dev\" ./stocks/src",
-    "dev": "vue-cli-service build --mode=development",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint ./vue/src --no-fix"
+    "serve": "vite --host 0.0.0.0 --port 3000",
+    "preview": "vite preview --host 0.0.0.0 --port 5000",
+    "build": "vite build --mode development",
+    "deploy": "rm -Rf static && rm -Rf dist && npm run build && python manage.py collectstatic --no-input",
+    "server": "python manage.py migrate && python manage.py runserver 0.0.0.0:8000",
+    "watch": "watch \"npm run deploy\" src --wait=10 --interval=3 --ignoreDotFiles --ignoreUnreadable",
+    "localhost": "npm run server | npm run watch"
   },
   "dependencies": {
-    "axios": "^0.18.1",
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10",
-    "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
+    "vue": "^3.2.16",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2",
+    "watch": "^1.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.9.0",
-    "@vue/cli-plugin-eslint": "^3.9.0",
-    "@vue/cli-service": "^3.9.0",
-    "@vue/eslint-config-airbnb": "^4.0.0",
-    "@vue/test-utils": "^1.0.0-beta.20",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.9.0",
-    "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.6.10",
-    "watch": "^1.0.2",
-    "webpack": "^4.38.0"
+    "@vitejs/plugin-vue": "^1.9.3",
+    "sass": "^1.43.4",
+    "vite": "^2.6.4"
   }
 }

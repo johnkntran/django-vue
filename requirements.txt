@@ -1,5 +1,4 @@
 Django
-django-livereload-server
 djangorestframework
 ipython
 flake8
