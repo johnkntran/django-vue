@@ -25,6 +25,7 @@ ENV PATH /code/node_modules/.bin:${PATH}
 
 EXPOSE 3000
 EXPOSE 5000
+EXPOSE 8000
 COPY . /code
 
 ENTRYPOINT ["npm", "run", "localhost"]
