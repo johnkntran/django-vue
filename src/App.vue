@@ -13,15 +13,15 @@
   // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
   // for more details.
   import { onMounted } from 'vue';
-  import { useStore } from 'vuex';
+  import { useStore } from './store.js';
 
   const store = useStore();
 
   onMounted(async function appMounted() {
-    store.commit('addCount', 1);
-    console.debug('store.state.count', store.state.count);
-    await store.dispatch('fetchDataThenAddCount');
-    console.debug('store.getters.getCount', store.getters.getCount);
+    store.count += 1;
+    console.debug('store.count', store.count);
+    await store.fetchDataThenIncrement();
+    console.debug('store.getCount', store.getCount);
   });
 
 </script>

@@ -12,7 +12,7 @@ clone this repository down to your local computer.
 Run these commands to build the Docker image and start a container serving at http://127.0.0.1:8000/:
 ```bash
 docker build --file Dockerfile --tag django-vue . # Note: This will take a while...
-docker run --publish 3000:3000 --publish 5000:5000 --publish 8000:8000 --name django_vue django-vue
+docker run --volume /Users/john.tran/Development/vue:/code --publish 8000:8000 --name django_vue django-vue # Point volume to your local repo directory
 ```
 
 If you want to SSH into the running container, issue:
