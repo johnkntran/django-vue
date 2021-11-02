@@ -30,7 +30,7 @@
 
 
 <script setup>
-  import { ref, reactive, defineProps, defineEmits } from 'vue';
+  import { reactive, defineProps, defineEmits } from 'vue';
   import api from '../api.js';
 
   const props = defineProps({

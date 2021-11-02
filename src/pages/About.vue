@@ -7,9 +7,11 @@
 <script>
   import { defineComponent } from 'vue';
 
-  /* Example <script> and defineComponent() syntax for creating component */
+  /* Classic example of <script> and defineComponent() syntax for creating component.
+     These days, <script setup> syntax is preferred for Single-File Components.
+  */
   const component = defineComponent(function About() {
-    // Component logic...
+    // Component logic here...
   });
 
   export default component;
